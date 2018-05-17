@@ -1,6 +1,7 @@
 # Staking QTUM with Amazon EC2
 
 ### Prerequisites
+___
 * An AWS account. If you aren't already a customer, every new account (with a valid credit card that hasn't been used for a previous account) is valid for 12 months of the [AWS Free Tier](https://aws.amazon.com/free/), which includes 750 hours a month of EC2 resources, which can keep your node staking 24/7.
 
 * Familiarity with Linux and terminal usage. This guide will be using an Ubuntu instance as the remote EC2 instance, and any Debian-based Linux operating system as a client to connect to the EC2 server.
@@ -15,7 +16,8 @@ Cloud password managers like [LastPass](https://www.lastpass.com/) are not perfe
 
 From here on I'll assume you know how to secure passwords. This means [not storing private keys in plain text in Evernote](https://ethereumworldnews.com/notable-cryptocurrency-influencer-looses-over-1-million-to-hacker/).
 
-### Instructions
+### Provision an Ubuntu EC2
+___
 
 1. Create an AWS account - use the Free Tier if you aren't already an account holder.
 2. Recommended - add a multi-factor authentication method to login to AWS. Find the _My Security Credentials_ section in your account:
@@ -116,6 +118,91 @@ From here on I'll assume you know how to secure passwords. This means [not stori
 
   (You may need unlock using the passphrase if you created one and the file is not already unlocked)
 
+## Installing QTUM
+___
+
+1. Obtain the QTUM signing key:
+
+ ```
+ sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys BF5B197D
+ ```
+
+2. Add QTUM repository to your APT sources:
+
+  ```
+  sudo tee -a /etc/apt/sources.list.d/qtum.list <<EOF  
+  deb http://repo.qtum.info/apt/ubuntu/ $(lsb_release -c | cut -f2) main
+  EOF
+  ```  
+
+3. Update your sources and install QTUM:
+
+ ```
+ sudo apt update && sudo apt install qtum
+ ```
+
+4. Create a service to restart qtumd on reboot:  
+
+  ```
+  sudo tee -a /etc/systemd/system/qtumd.service <<EOF
+  [Unit]
+  Description=QTUM daemon
+  After=network.target
+
+  [Service]
+  Type=forking
+  User=ubuntu
+  WorkingDirectory=/home/ubuntu/.qtum
+  ExecStart=/usr/local/bin/qtumd -daemon=1 -par=2 -onlynet=ipv4 -noonion -listenonion=0 -maxconnections=24 -rpcbind=127.0.0.1 -rpcallowip=127.0.0.1
+  PIDFile=/home/ubuntu/.qtum/qtumd.pid
+  Restart=always
+  RestartSec=1
+  KillSignal=SIGQUIT
+  KillMode=mixed
+  EOF
+  ```
+
+5. Now start the daemon
+
+  ```
+  sudo systemctl daemon-reload \
+  && sudo systemctl enable qtumd.service \
+  && sudo systemctl start qtumd.service
+  ```
+
+6. To verify everything is working, you can now check:
+
+  ```
+  qtum-cli getwalletinfo
+  ```
+
+  You'll get some output like:
+  ```
+  {
+    "walletversion": 130000,
+    "balance": 0.00000000,
+    "stake": 0.00000000,
+    "unconfirmed_balance": 0.00000000,
+    "immature_balance": 0.00000000,
+    "txcount": 0,
+    "keypoololdest": 1526566081,
+    "keypoolsize": 100,
+    "paytxfee": 0.00000000,
+    "hdmasterkeyid": "9b8a7adf48844e501f730a3a99fbfee0508b83f3"
+  }
+  ```
+
+#### Further reference:
+https://github.com/qtumproject/qtum/wiki/Setting-up-QTUM-Ubuntu,-Debian-and-Mint-repository
+
+
+## Setup wallet for staking
+___
+
+
+
+## Backup your wallet file
+___
 
 
 
@@ -125,6 +212,8 @@ From here on I'll assume you know how to secure passwords. This means [not stori
 
 
 
-### Other reference links
+
+## Other references and guides
+___
 
 * Sign up for free encrypted email at [ProtonMail](https://protonmail.com/) if you need a new identity for your AWS Free Tier.
