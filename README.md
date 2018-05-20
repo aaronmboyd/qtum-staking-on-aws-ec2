@@ -179,12 +179,24 @@ ___
   EOF
   ```
 
-5. Now start the daemon
+5. Enable the service
 
   ```
-  $ sudo systemctl daemon-reload \
-  && sudo systemctl enable qtumd.service \
-  && sudo systemctl start qtumd.service
+  $ sudo systemctl daemon-reload
+  ```
+  Followed by:
+  ```
+  $ sudo systemctl enable qtumd.service
+  ```
+
+6. Now reboot the system and login again from your local machine
+  ```
+  $ sudo reboot
+  ```
+
+7.  Start the service
+  ```
+  $ sudo systemctl start qtumd.service
   ```
 
 6. To verify everything is working, you can now check:
