@@ -251,9 +251,13 @@ ___
 ## 5 Set up for staking
 ___
 
-1. Back on the remote EC2, unlock your wallet for staking (for the maximum time):
+1. Back on the remote EC2, unlock your wallet for staking (for the maximum time)
 
-  `$ qtum-cli walletpassphrase "your password" 999999999 true`
+  Restart the service first, with `$ sudo systemctl start qtumd.service`, then:
+
+  ```
+  $ qtum-cli walletpassphrase "your password" 999999999 true
+  ```
 
 ## 6 Send QTUM to your wallet
 ___
@@ -338,13 +342,17 @@ $ sudo apt-get update && sudo apt-get install
 ```
 To reload the service after a system or QTUM upgrade, or if you make changes to the qtum.service:
 ```
-$ sudo systemctl daemon-reload \
-&& sudo systemctl enable qtumd.service \
-&& sudo systemctl start qtumd.service
+$ sudo systemctl daemon-reload
+```
+```
+$ sudo systemctl enable qtumd.service
+```
+```
+$ sudo systemctl start qtumd.service
 ```
 To review qtumd.service status:
 ```
-$ sudo systemctl status qtumd.Service
+$ sudo systemctl status qtumd.service
 ```
 
 ## 9 Security Checklist
