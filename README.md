@@ -362,7 +362,7 @@ Losing your wallet.dat backups is OK, you can always repeat the `scp` commands o
 
 Losing the SSH private keyfile is not desired but you can easily generate a new one and update your security group in AWS with a new public key. You might want to do this if you format your local machine or administer it from a different system.
 
-## Other references
+## 10 Other references
 ___
 
 https://steemit.com/qtum/@cryptominder/qtum-staking-tutorial-using-qtumd-on-a-raspberry-pi-3
