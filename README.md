@@ -113,8 +113,6 @@ ___
 
  **Recommended** - if you leave the **Source** section open to 0.0.0.0/0 this means _all_ IP ranges will be able to login to this security group. You may want to restrict this to a single IP (or range) of the client system you will use to manage the QTUM node. This might seem restricting, and it is - deliberately, but you are going to manage the QTUM node via SSH, and the private key will probably only reside on a single system. So if that has a dedicated IP (or range), then lock it down for improved security.
 
- Note: As long as you have access to your AWS account you can always alter the security group later if need be.
-
 12. Click **Review and Launch** and review your settings. Click **Launch**, and you will be prompted to select a key pair for this instance
 
  ![Select Keypair](./images/select-key-pair.png)
@@ -363,7 +361,7 @@ Double-check you have access and control of everything listed.
 * AWS login password
 * AWS multfactor device or method
 
-If someone can access your AWS account they can simply change the Security Group the EC2 belongs to, with a new public key created from a private key they control, and then access your EC2. This shouldn't be a catastrophic issue - as the wallet is only unlocked for staking. They will not be able to send from it without knowing the QTUM wallet encryption passphrase.
+If someone can access your AWS account they still shouldn't be able to either change your Security Group for the running instance or get into the EC2 (as they don't have the private keyfile for SSH).
 
 **On the EC2 instance**
 * QTUM wallet.dat file
@@ -379,8 +377,6 @@ Losing the wallet encryption password is catastrophic, as you will never be able
 * Passphrase for file access to your SSH keyfile
 
 Losing your wallet.dat backups is OK, you can always repeat the `scp` commands on a new system to get another backup. Keep a few backups in different locations regardless. They are encrypted with your password so even if someone has access to the file it will be useless to them.
-
-Losing the SSH private keyfile is not desired but you can easily generate a new one and update your security group in AWS with a new public key. You might want to do this if you format your local machine or administer it from a different system.
 
 ## 10 Other references
 ___
