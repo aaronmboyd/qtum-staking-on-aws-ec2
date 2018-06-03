@@ -223,8 +223,9 @@ ___
 ___
 
 1. Run
-  `$ qtum-cli encryptwallet "your password"`
+  `$ qtum-cli -stdin encryptwallet`
 
+  Using `-stdin` silently prompts you for sensitive information. Enter your passphrase followed by `Enter` and then `Ctrl-D` to end the input stream.
 
   Output
   ```
@@ -254,8 +255,19 @@ ___
   Restart the service first, with `$ sudo systemctl start qtumd.service`, then:
 
   ```
-  $ qtum-cli walletpassphrase "your password" 999999999 true
+  $ qtum-cli -stdin walletpassphrase
   ```
+  Again, using `-stdin` for input here instead of typing directly. Enter the following information, followed by `Enter` after each line:
+  ```
+  <your passphrase>
+  99999999
+  true
+  ````
+  Finally `Ctrl-D` after the final `Enter` to end the standard input.
+  * 99999999 - means the unlock for the maximum time
+  * true - means unlock your wallet for staking
+  
+  The passphrase will be displayed on your terminal briefly while you enter this, so always be aware of shoulder-surfing attacks, however it wont be stored in your bash history.
 
 ## 6 Send QTUM to your wallet
 ___
@@ -332,7 +344,7 @@ $ qtum-cli help
 ```
 To to unlock your wallet for staking again after a reboot:
 ```
-$ qtum-cli walletpassphrase "your password" 999999999 true
+$ qtum-cli -stdin walletpassphrase
 ```
 To keep the QTUM daemon (and the entire system) up to date:
 ```
