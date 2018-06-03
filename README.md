@@ -6,7 +6,7 @@
 * [2 Installing QTUM](#2-installing-qtum)
 * [3 Encrypt your wallet](#3-encrypt-your-wallet)
 * [4 Backup your wallet file](#4-backup-your-wallet-file)
-* [5 Set up for staking](#5-setup-for-staking)
+* [5 Set up for staking](#5-set-up-for-staking)
 * [6 Send QTUM to your wallet](#6-send-qtum-to-your-wallet)
 * [7 Wait for your QTUM to mature](#7-wait-for-your-qtum-to-mature)
 * [8 Maintenance](#8-maintenance)
